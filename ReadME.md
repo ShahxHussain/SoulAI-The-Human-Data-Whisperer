@@ -263,23 +263,23 @@ SoulAI/
 ![Dataset Selection](System_Screenshots/s2.png)
 *Users can choose from pre-loaded sample datasets or upload their own CSV/Excel files*
 
-### **3. Human Intuition Capture**
+### **3. Dataset Overview**
 ![Human Intuition](System_Screenshots/s3.png)
+*Details & QuickStats of Dataset*
+
+### **Human Intuition Capture**
+![AI Analysis](System_Screenshots/s4.png)
 *The interface where users share their gut feelings, contextual insights, and assumptions about the data*
 
-### **4. AI Analysis Results**
-![AI Analysis](System_Screenshots/s4.png)
-*AI-powered technical analysis with statistical findings and data visualizations*
-
-### **5. Comparison Dashboard**
+### **5. AI Analysis Results**
 ![Comparison Dashboard](System_Screenshots/s5.png)
-*Side-by-side comparison showing AI patterns versus human insights*
+*AI-powered technical analysis with statistical findings and data visualizationss*
 
-### **6. Human vs AI Insights**
+### **6. Analysis Results(2)**
 ![Human vs AI](System_Screenshots/s6.png)
-*Detailed breakdown of where human intelligence provides unique value over AI analysis*
+*AI-powered technical analysis with statistical findings and data visualizationss*
 
-### **7. Emotional Context Analysis**
+### **7. Human vs AI Insights**
 ![Emotional Analysis](System_Screenshots/s7.png)
 *Sentiment analysis and emotional context detection in data interpretations*
 
@@ -287,7 +287,7 @@ SoulAI/
 ![Metrics Dashboard](System_Screenshots/s8.png)
 *Quantitative metrics showing the balance between AI accuracy and human insight*
 
-### **9. Final Insights Summary**
+### **9. The Verdict: Final Insights Summary**
 ![Final Summary](System_Screenshots/s9.png)
 *Comprehensive summary highlighting the human edge and actionable insights*
 
