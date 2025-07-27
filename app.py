@@ -305,7 +305,7 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="main-header"><h1>🧠 SoulAI: The Human Data Whisperer</h1><p>Where Human Intelligence Meets Artificial Intelligence</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header"><h1> SoulAI: The Human Data Whisperer</h1><p>Where Human Intelligence Meets Artificial Intelligence</p></div>', unsafe_allow_html=True)
     
     st.markdown("""
     
