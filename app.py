@@ -24,6 +24,49 @@ warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 
 pattern = re.compile(r"```python\n(.*?)\n```", re.DOTALL)
 
+# Sample datasets configuration
+SAMPLE_DATASETS = {
+    "Student Mental Health Survey": {
+        "path": "sample_datasets/Student Mental health.csv",
+        "description": "📚 Student mental health data with depression, anxiety, and academic performance metrics",
+        "preview_query": "What patterns exist in student mental health across different courses and academic years?",
+        "human_context_hint": "🎓 Academic pressure varies by field - Engineering students face intense technical demands, while Psychology students study human behavior but may internalize stress. Consider how cultural background (Islamic education vs secular courses) affects mental health stigma and help-seeking behavior. Age and marital status create different life pressures - younger students face identity formation while older students juggle family responsibilities.",
+        "key_insights": [
+            "🧠 Engineering students show higher depression rates due to intense academic pressure",
+            "💍 Married students face unique stressors balancing family and studies", 
+            "🎯 Psychology students ironically report high anxiety despite studying mental health",
+            "📊 CGPA ranges reveal academic stress patterns - lower grades correlate with mental health issues",
+            "🌍 Cultural factors in Islamic education may affect help-seeking behavior"
+        ]
+    },
+    "Google Play Store Apps": {
+        "path": "sample_datasets/googleplaystore.csv", 
+        "description": "📱 Google Play Store app data with ratings, reviews, categories, and download statistics",
+        "preview_query": "What factors influence app success and user satisfaction in the Google Play Store?",
+        "human_context_hint": "📱 Human psychology drives app success - Family apps dominate because parents prioritize children's education and entertainment. Free apps get more downloads but paid apps often have higher ratings (quality vs quantity). User behavior shows emotional attachment - people rate apps they use daily higher. Content ratings reflect societal values and parental concerns. App categories reveal human needs: productivity apps for work stress, lifestyle apps for self-improvement, and communication apps for social connection.",
+        "key_insights": [
+            "👨‍👩‍👧‍👦 Family apps dominate (1972 apps) - parents prioritize children's digital needs",
+            "💰 Free apps get more downloads but paid apps often have higher ratings",
+            "⭐ Users emotionally invest in daily-use apps, leading to higher ratings",
+            "🎮 Gaming apps are popular but face fierce competition and rating pressure",
+            "📊 Medical apps show trust issues - lower ratings despite critical importance"
+        ]
+    },
+    "Adidas US Sales Data": {
+        "path": "sample_datasets/Adidas US Sales Datasets.xlsx",
+        "description": "👟 Adidas US sales data with product categories, regions, and sales performance",
+        "preview_query": "What are the sales patterns and performance trends for Adidas products across different regions?",
+        "human_context_hint": "👟 Fashion and lifestyle choices drive sales - people buy athletic wear for status, not just sports. Regional preferences reflect cultural identity and climate - Northeast urban areas prefer streetwear for fashion, while West Coast focuses on athletic performance. Seasonal patterns show human behavior: New Year fitness resolutions, spring outdoor activities, and holiday gift-giving. Price sensitivity varies by region - affluent areas pay premium for brand status. Sales methods reflect shopping psychology - in-store experiences vs online convenience.",
+        "key_insights": [
+            "🏙️ Northeast urban areas prefer streetwear for fashion status over athletic performance",
+            "🌤️ Seasonal patterns reflect human behavior: New Year resolutions, spring activities",
+            "💰 Price sensitivity varies by region - affluent areas pay premium for brand status",
+            "🛍️ In-store vs online sales reflect shopping psychology and experience preferences",
+            "🎯 Product categories show lifestyle choices, not just athletic needs"
+        ]
+    }
+}
+
 class HumanIntelligenceLayer:
     """The core Human Intelligence layer that adds context, emotion, and intuition to AI analysis"""
     
@@ -85,6 +128,30 @@ class HumanIntelligenceLayer:
             suggestions.append("🧠 Mental health, work-life balance, or team dynamics could explain these patterns")
             suggestions.append("💪 Human motivation cycles and burnout patterns are often invisible to AI")
         
+        # Mental health specific context
+        if any(col for col in df.columns if any(word in col.lower() for word in ['depression', 'anxiety', 'mental', 'health'])):
+            suggestions.append("🧠 Cultural stigma around mental health affects reporting accuracy and help-seeking behavior")
+            suggestions.append("🎓 Academic pressure varies dramatically by field - engineering vs arts vs business")
+            suggestions.append("💍 Life stage matters - married students face different stressors than single students")
+            suggestions.append("🌍 Cultural and religious background significantly influences mental health perceptions")
+            suggestions.append("📚 GPA stress creates a vicious cycle - poor mental health leads to lower grades")
+        
+        # App store specific context
+        if any(col for col in df.columns if any(word in col.lower() for word in ['app', 'rating', 'review', 'install', 'category'])):
+            suggestions.append("📱 Human psychology drives app success - emotional attachment vs utility")
+            suggestions.append("👨‍👩‍👧‍👦 Family apps dominate because parents prioritize children's digital needs")
+            suggestions.append("💰 Free vs paid apps reflect different user psychology and expectations")
+            suggestions.append("⭐ Rating inflation - users rate apps they use daily higher due to emotional investment")
+            suggestions.append("🎮 Gaming apps face fierce competition and rating pressure from passionate users")
+        
+        # Sales/retail specific context
+        if any(col for col in df.columns if any(word in col.lower() for word in ['sales', 'retailer', 'product', 'region', 'price'])):
+            suggestions.append("👟 Fashion and lifestyle choices drive sales more than athletic needs")
+            suggestions.append("🏙️ Regional preferences reflect cultural identity, climate, and urban vs rural lifestyles")
+            suggestions.append("🌤️ Seasonal patterns show human behavior: resolutions, holidays, weather changes")
+            suggestions.append("💰 Price sensitivity varies by region - affluent areas pay premium for status")
+            suggestions.append("🛍️ Shopping methods reflect psychology - in-store experience vs online convenience")
+        
         return suggestions
     
     def generate_bias_alerts(self, ai_analysis: str) -> List[str]:
@@ -123,6 +190,143 @@ def get_human_intuition_prompt(df: pd.DataFrame, query: str) -> str:
     
     **What's your gut feeling?**
     """
+
+def extract_technical_patterns(ai_response: str) -> List[str]:
+    """Extract technical patterns and statistical findings from AI response"""
+    patterns = []
+    
+    # Look for statistical patterns
+    if "correlation" in ai_response.lower():
+        patterns.append("📊 **Correlation Analysis:** AI identified relationships between variables")
+    
+    if "trend" in ai_response.lower():
+        patterns.append("📈 **Trend Analysis:** AI detected patterns over time or sequences")
+    
+    if "average" in ai_response.lower() or "mean" in ai_response.lower():
+        patterns.append("📊 **Central Tendency:** AI calculated averages and central values")
+    
+    if "distribution" in ai_response.lower():
+        patterns.append("📊 **Distribution Analysis:** AI examined data spread and patterns")
+    
+    if "outlier" in ai_response.lower():
+        patterns.append("🔍 **Outlier Detection:** AI identified unusual data points")
+    
+    if "cluster" in ai_response.lower() or "group" in ai_response.lower():
+        patterns.append("🎯 **Clustering:** AI grouped similar data points")
+    
+    if "increase" in ai_response.lower() or "decrease" in ai_response.lower():
+        patterns.append("📈 **Change Detection:** AI identified growth or decline patterns")
+    
+    if "percentage" in ai_response.lower() or "%" in ai_response.lower():
+        patterns.append("📊 **Percentage Analysis:** AI calculated proportional changes")
+    
+    if "regression" in ai_response.lower():
+        patterns.append("📈 **Regression Analysis:** AI modeled relationships between variables")
+    
+    if "variance" in ai_response.lower() or "standard deviation" in ai_response.lower():
+        patterns.append("📊 **Variability Analysis:** AI measured data spread and consistency")
+    
+    if "median" in ai_response.lower():
+        patterns.append("📊 **Median Analysis:** AI identified middle values and central tendency")
+    
+    if "mode" in ai_response.lower():
+        patterns.append("📊 **Mode Analysis:** AI found most frequent values")
+    
+    if "range" in ai_response.lower():
+        patterns.append("📊 **Range Analysis:** AI calculated data spread from min to max")
+    
+    if "quartile" in ai_response.lower():
+        patterns.append("📊 **Quartile Analysis:** AI examined data distribution in quarters")
+    
+    if "skew" in ai_response.lower():
+        patterns.append("📊 **Skewness Analysis:** AI measured data distribution asymmetry")
+    
+    if "kurtosis" in ai_response.lower():
+        patterns.append("📊 **Kurtosis Analysis:** AI measured data distribution peakedness")
+    
+    if "anova" in ai_response.lower() or "f-test" in ai_response.lower():
+        patterns.append("📊 **ANOVA Analysis:** AI compared means across multiple groups")
+    
+    if "chi-square" in ai_response.lower() or "chi-squared" in ai_response.lower():
+        patterns.append("📊 **Chi-Square Test:** AI tested categorical variable relationships")
+    
+    if "t-test" in ai_response.lower():
+        patterns.append("📊 **T-Test Analysis:** AI compared means between groups")
+    
+    if "p-value" in ai_response.lower() or "significance" in ai_response.lower():
+        patterns.append("📊 **Statistical Significance:** AI tested hypothesis validity")
+    
+    if "confidence interval" in ai_response.lower():
+        patterns.append("📊 **Confidence Intervals:** AI estimated parameter ranges")
+    
+    if "r-squared" in ai_response.lower() or "r²" in ai_response.lower():
+        patterns.append("📊 **R-Squared Analysis:** AI measured model fit quality")
+    
+    # Look for specific numerical findings
+    import re
+    numbers = re.findall(r'\d+\.?\d*%?', ai_response)
+    if numbers:
+        patterns.append(f"🔢 **Numerical Findings:** AI identified key metrics: {', '.join(numbers[:3])}")
+    
+    # Look for visualization patterns
+    if "histogram" in ai_response.lower():
+        patterns.append("📊 **Histogram Analysis:** AI examined data distribution visually")
+    
+    if "scatter plot" in ai_response.lower() or "scatterplot" in ai_response.lower():
+        patterns.append("📊 **Scatter Plot Analysis:** AI visualized variable relationships")
+    
+    if "box plot" in ai_response.lower() or "boxplot" in ai_response.lower():
+        patterns.append("📊 **Box Plot Analysis:** AI examined data distribution and outliers")
+    
+    if "bar chart" in ai_response.lower() or "bar graph" in ai_response.lower():
+        patterns.append("📊 **Bar Chart Analysis:** AI compared categorical data")
+    
+    if "line chart" in ai_response.lower() or "line graph" in ai_response.lower():
+        patterns.append("📊 **Line Chart Analysis:** AI tracked trends over time")
+    
+    return patterns
+
+def extract_human_insights(human_intuition: str, human_suggestions: List[str]) -> List[str]:
+    """Extract unique human insights from intuition and suggestions"""
+    insights = []
+    
+    # Extract insights from human intuition
+    if human_intuition:
+        # Look for emotional or contextual keywords
+        emotional_keywords = ['feel', 'think', 'believe', 'seem', 'probably', 'might', 'could', 'should', 'would', 'may']
+        contextual_keywords = ['because', 'since', 'due to', 'as a result', 'therefore', 'however', 'although', 'while', 'when']
+        behavioral_keywords = ['people', 'users', 'customers', 'students', 'behavior', 'tend', 'prefer', 'choose', 'decide']
+        
+        sentences = human_intuition.split('.')
+        for sentence in sentences:
+            sentence = sentence.strip()
+            if any(keyword in sentence.lower() for keyword in emotional_keywords + contextual_keywords + behavioral_keywords):
+                if len(sentence) > 15:  # Only include substantial insights
+                    insights.append(f"💭 **Intuition:** {sentence}")
+    
+    # Extract insights from human suggestions
+    for suggestion in human_suggestions:
+        # Prioritize key insights and contextual suggestions
+        if "🎯" in suggestion or "🔍" in suggestion:
+            insights.append(suggestion)
+        elif any(keyword in suggestion.lower() for keyword in [
+            'human', 'behavior', 'psychology', 'culture', 'emotion', 'social', 
+            'lifestyle', 'preference', 'motivation', 'stress', 'pressure', 'trend',
+            'seasonal', 'regional', 'demographic', 'generational', 'economic'
+        ]):
+            insights.append(suggestion)
+    
+    # Add dataset-specific insights based on content
+    if any(word in human_intuition.lower() for word in ['mental', 'health', 'depression', 'anxiety']):
+        insights.append("🧠 **Mental Health Context:** Cultural stigma and academic pressure significantly impact reporting accuracy")
+    
+    if any(word in human_intuition.lower() for word in ['app', 'rating', 'download', 'store']):
+        insights.append("📱 **App Psychology:** User behavior driven by emotional attachment and social validation")
+    
+    if any(word in human_intuition.lower() for word in ['sales', 'purchase', 'buy', 'retail']):
+        insights.append("🛍️ **Consumer Behavior:** Fashion choices reflect lifestyle and status, not just functional needs")
+    
+    return insights[:6]  # Limit to top 6 insights
 
 def create_human_vs_ai_comparison(human_input: str, ai_analysis: str, emotional_context: Dict) -> str:
     """Create a comparison between human intuition and AI analysis"""
@@ -269,6 +473,79 @@ def upload_dataset(code_interpreter: Sandbox, uploaded_file) -> str:
         st.error(f"Error during file upload: {error}")
         raise error
 
+def load_sample_dataset(dataset_name: str) -> Tuple[pd.DataFrame, str]:
+    """Load a sample dataset and return the dataframe and file path"""
+    dataset_config = SAMPLE_DATASETS[dataset_name]
+    file_path = dataset_config["path"]
+    
+    try:
+        if file_path.endswith('.csv'):
+            df = pd.read_csv(file_path)
+        elif file_path.endswith('.xlsx'):
+            # Handle Adidas dataset specifically - it has header issues
+            if 'Adidas' in dataset_name:
+                df = pd.read_excel(file_path, skiprows=3)
+                # Clean up column names
+                df.columns = ['Index', 'Retailer', 'Retailer ID', 'Invoice Date', 'Region', 
+                             'State', 'City', 'Product', 'Price per Unit', 'Units Sold', 
+                             'Total Sales', 'Operating Profit', 'Operating Margin', 'Sales Method']
+                # Drop the index column and any empty rows
+                df = df.dropna(subset=['Retailer']).reset_index(drop=True)
+            else:
+                df = pd.read_excel(file_path)
+        else:
+            raise ValueError(f"Unsupported file format: {file_path}")
+        
+        return df, file_path
+    except Exception as error:
+        st.error(f"Error loading sample dataset {dataset_name}: {error}")
+        raise error
+
+def upload_sample_dataset_to_sandbox(code_interpreter: Sandbox, dataset_name: str) -> str:
+    """Upload a sample dataset to the sandbox and return the path"""
+    dataset_config = SAMPLE_DATASETS[dataset_name]
+    file_path = dataset_config["path"]
+    
+    try:
+        # For Adidas dataset, we need to create a cleaned CSV version
+        if 'Adidas' in dataset_name:
+            # Load and clean the data
+            df = pd.read_excel(file_path, skiprows=3)
+            df.columns = ['Index', 'Retailer', 'Retailer ID', 'Invoice Date', 'Region', 
+                         'State', 'City', 'Product', 'Price per Unit', 'Units Sold', 
+                         'Total Sales', 'Operating Profit', 'Operating Margin', 'Sales Method']
+            df = df.dropna(subset=['Retailer']).reset_index(drop=True)
+            
+            # Create a temporary CSV file
+            temp_csv_path = "adidas_sales_cleaned.csv"
+            df.to_csv(temp_csv_path, index=False)
+            
+            # Upload the cleaned CSV
+            with open(temp_csv_path, 'rb') as file:
+                file_content = file.read()
+            
+            sandbox_path = f"./adidas_sales_cleaned.csv"
+            code_interpreter.files.write(sandbox_path, file_content)
+            
+            # Clean up temporary file
+            os.remove(temp_csv_path)
+            
+            return sandbox_path
+        else:
+            # For other datasets, upload as is
+            with open(file_path, 'rb') as file:
+                file_content = file.read()
+            
+            # Upload to sandbox with the original filename
+            filename = os.path.basename(file_path)
+            sandbox_path = f"./{filename}"
+            code_interpreter.files.write(sandbox_path, file_content)
+            
+            return sandbox_path
+    except Exception as error:
+        st.error(f"Error uploading sample dataset to sandbox: {error}")
+        raise error
+
 def main():
     """Main Streamlit application with Human Intelligence Layer"""
     
@@ -301,6 +578,67 @@ def main():
         padding: 1rem;
         border-radius: 8px;
         border: 1px solid #9ae6b4;
+    }
+    .sample-dataset-card {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+        margin: 0.5rem 0;
+        transition: all 0.3s ease;
+    }
+    .sample-dataset-card:hover {
+        border-color: #4299e1;
+        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    }
+    .dataset-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    .key-insights {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    .human-context-highlight {
+        background: #dbeafe;
+        border-left: 4px solid #3b82f6;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    .technical-patterns {
+        background: #f0f9ff;
+        border: 2px solid #0ea5e9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+    }
+    .human-insights {
+        background: #fef3c7;
+        border: 2px solid #f59e0b;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+    }
+    .pattern-insight-item {
+        background: white;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border-radius: 5px;
+        border-left: 3px solid #3b82f6;
+    }
+    .human-insight-item {
+        background: white;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border-radius: 5px;
+        border-left: 3px solid #f59e0b;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -361,33 +699,119 @@ def main():
         
 
 
-    # File upload
-    uploaded_file = st.file_uploader("📁 Upload your dataset", type="csv")
+    # Dataset selection section
+    st.markdown("## 📊 **Choose Your Dataset**")
     
-    if uploaded_file is not None:
-        # Load and display dataset
-        df = pd.read_csv(uploaded_file)
+    # Create tabs for different dataset options
+    tab1, tab2 = st.tabs(["📁 Upload Your Own", "🎯 Try Sample Datasets"])
+    
+    df = None
+    dataset_path = None
+    selected_dataset_name = None
+    
+    with tab1:
+        st.markdown("### Upload Your Own Dataset")
+        uploaded_file = st.file_uploader("📁 Upload your dataset", type=["csv", "xlsx"])
         
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            st.write("📊 **Your Dataset:**")
-            show_full = st.checkbox("Show full dataset")
-            if show_full:
-                st.dataframe(df)
-            else:
-                st.write("Preview (first 5 rows):")
-                st.dataframe(df.head())
+        if uploaded_file is not None:
+            try:
+                if uploaded_file.name.endswith('.csv'):
+                    df = pd.read_csv(uploaded_file)
+                elif uploaded_file.name.endswith('.xlsx'):
+                    df = pd.read_excel(uploaded_file)
+                else:
+                    st.error("Unsupported file format. Please upload a CSV or Excel file.")
+                    return
+                
+                dataset_path = uploaded_file.name
+                st.success(f"✅ Successfully loaded: {uploaded_file.name}")
+            except Exception as e:
+                st.error(f"Error loading file: {e}")
+                return
+    
+    with tab2:
+        st.markdown("### 🎯 Try Our Sample Datasets")
+        st.markdown("Don't have a dataset? No problem! Try one of our curated datasets:")
         
-        with col2:
-            st.write("📈 **Quick Stats:**")
-            st.write(f"Rows: {len(df)}")
-            st.write(f"Columns: {len(df.columns)}")
-            st.write(f"Data types: {df.dtypes.nunique()}")
+        # Use radio button for single selection
+        dataset_options = list(SAMPLE_DATASETS.keys())
+        selected_dataset_name = st.radio(
+            "🎯 Choose a sample dataset:",
+            options=dataset_options,
+            format_func=lambda x: f"📊 {x}",
+            key="sample_dataset_radio"
+        )
         
-        # Query input
+        # Display detailed info for selected dataset
+        if selected_dataset_name:
+            config = SAMPLE_DATASETS[selected_dataset_name]
+            st.markdown(f"""
+            <div class="sample-dataset-card">
+                <h4>📊 {selected_dataset_name}</h4>
+                <p>{config['description']}</p>
+                <p><strong>💡 Suggested Query:</strong> {config['preview_query']}</p>
+                <p><strong>🧠 Human Context:</strong> {config['human_context_hint']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Display key insights
+            if 'key_insights' in config:
+                insights_html = "<div class='key-insights'><h4>🔍 Key Human Insights to Look For:</h4><ul>"
+                for insight in config['key_insights']:
+                    insights_html += f"<li>{insight}</li>"
+                insights_html += "</ul></div>"
+                st.markdown(insights_html, unsafe_allow_html=True)
+        
+        # Load selected sample dataset
+        if selected_dataset_name:
+            try:
+                df, dataset_path = load_sample_dataset(selected_dataset_name)
+                st.markdown(f"""
+                <div class="dataset-info">
+                    <h3>🎉 Dataset Loaded Successfully!</h3>
+                    <p><strong>Selected:</strong> {selected_dataset_name}</p>
+                    <p><strong>File:</strong> {os.path.basename(dataset_path)}</p>
+                </div>
+                """, unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"Error loading sample dataset: {e}")
+                return
+        
+        if df is not None:
+            col1, col2 = st.columns([2, 1])
+            with col1:
+                st.write("📊 **Your Dataset:**")
+                show_full = st.checkbox("Show full dataset")
+                if show_full:
+                    st.dataframe(df)
+                else:
+                    st.write("Preview (first 5 rows):")
+                    st.dataframe(df.head())
+            
+            with col2:
+                st.write("📈 **Quick Stats:**")
+                st.write(f"Rows: {len(df)}")
+                st.write(f"Columns: {len(df.columns)}")
+                st.write(f"Data types: {df.dtypes.nunique()}")
+                
+                # Show additional info for sample datasets
+                if selected_dataset_name:
+                    st.write("---")
+                    st.write("🎯 **Sample Dataset Info:**")
+                    st.write(f"Source: {selected_dataset_name}")
+                    st.write(f"File: {os.path.basename(dataset_path)}")
+        else:
+            st.info("👆 Please select a dataset from the tabs above to get started!")
+            return
+        
+        # Query input with auto-suggestion for sample datasets
+        default_query = "What patterns or insights can we discover in this dataset?"
+        if selected_dataset_name:
+            default_query = SAMPLE_DATASETS[selected_dataset_name]["preview_query"]
+        
         query = st.text_area(
             "🤔 What would you like to explore in your data?",
-            "What patterns or insights can we discover in this dataset?",
+            default_query,
             height=100
         )
         
@@ -417,6 +841,18 @@ def main():
         # Human context suggestions
         human_suggestions = hi_layer.suggest_human_context(df, query)
         
+        # Add sample dataset specific context
+        if selected_dataset_name:
+            config = SAMPLE_DATASETS[selected_dataset_name]
+            sample_context = config["human_context_hint"]
+            human_suggestions.insert(0, f"🎯 **Sample Dataset Context:** {sample_context}")
+            
+            # Add key insights from the sample dataset
+            if 'key_insights' in config:
+                human_suggestions.insert(1, "🔍 **Key Human Insights to Investigate:**")
+                for insight in config['key_insights']:
+                    human_suggestions.append(f"  • {insight}")
+        
         if human_suggestions:
             st.markdown("**💡 Human Context Clues:**")
             for suggestion in human_suggestions:
@@ -428,19 +864,26 @@ def main():
                 st.error("Please enter both API keys in the sidebar.")
             elif not st.session_state.human_intuition:
                 st.warning("Please share your human intuition first! That's the whole point of this experiment 😊")
+            elif df is None:
+                st.warning("Please select a dataset first! Choose from the sample datasets or upload your own.")
             else:
                 st.markdown("---")
                 st.markdown("## 🤖 **Step 2: AI Technical Analysis**")
                 
                 with Sandbox(api_key=st.session_state.e2b_api_key) as code_interpreter:
-                    # Upload the dataset
-                    dataset_path = upload_dataset(code_interpreter, uploaded_file)
+                    # Upload the dataset to sandbox
+                    if selected_dataset_name:
+                        # Use sample dataset
+                        sandbox_dataset_path = upload_sample_dataset_to_sandbox(code_interpreter, selected_dataset_name)
+                    else:
+                        # Use uploaded file
+                        sandbox_dataset_path = upload_dataset(code_interpreter, uploaded_file)
                     
                     # Enhanced AI analysis with human context
                     code_results, llm_response = enhanced_chat_with_llm(
                         code_interpreter, 
                         query, 
-                        dataset_path, 
+                        sandbox_dataset_path, 
                         st.session_state.human_intuition
                     )
                     
@@ -469,16 +912,127 @@ def main():
                             else:
                                 st.write(result)
                     
-                    # HUMAN VS AI COMPARISON
+                    # TECHNICAL PATTERNS vs HUMAN INSIGHTS COMPARISON
                     st.markdown("---")
-                    st.markdown("## 🎯 **Step 3: The Human Edge Analysis**")
+                    st.markdown("## 🎯 **Step 3: Technical Patterns vs Human Insights**")
                     
-                    # Create comparison
+                    # Extract technical patterns from AI response
+                    technical_patterns = extract_technical_patterns(llm_response)
+                    
+                    # Extract human insights
+                    human_insights = extract_human_insights(st.session_state.human_intuition, human_suggestions)
+                    
+                    # Display side-by-side comparison
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown('<div class="technical-patterns">', unsafe_allow_html=True)
+                        st.markdown("### 🤖 **AI Technical Patterns**")
+                        if technical_patterns:
+                            for i, pattern in enumerate(technical_patterns, 1):
+                                st.markdown(f"""
+                                <div class="pattern-insight-item">
+                                    <strong>{i}.</strong> {pattern}
+                                </div>
+                                """, unsafe_allow_html=True)
+                        else:
+                            st.info("No clear technical patterns identified by AI")
+                        st.markdown('</div>', unsafe_allow_html=True)
+                    
+                    with col2:
+                        st.markdown('<div class="human-insights">', unsafe_allow_html=True)
+                        st.markdown("### 🧠 **Human Contextual Insights**")
+                        if human_insights:
+                            for i, insight in enumerate(human_insights, 1):
+                                st.markdown(f"""
+                                <div class="human-insight-item">
+                                    <strong>{i}.</strong> {insight}
+                                </div>
+                                """, unsafe_allow_html=True)
+                        else:
+                            st.info("No unique human insights identified")
+                        st.markdown('</div>', unsafe_allow_html=True)
+                    
+                    # Create detailed comparison
                     comparison = create_human_vs_ai_comparison(
                         st.session_state.human_intuition,
                         llm_response,
                         emotional_context
                     )
+                    
+                    # Summary comparison
+                    st.markdown("---")
+                    st.markdown("## 📊 **Pattern vs Insight Summary**")
+                    
+                    col1, col2, col3 = st.columns(3)
+                    
+                    with col1:
+                        st.metric(
+                            "🤖 Technical Patterns",
+                            len(technical_patterns),
+                            "AI Statistical Findings"
+                        )
+                    
+                    with col2:
+                        st.metric(
+                            "🧠 Human Insights", 
+                            len(human_insights),
+                            "Contextual Understanding"
+                        )
+                    
+                    with col3:
+                        if len(technical_patterns) > 0 and len(human_insights) > 0:
+                            ratio = len(human_insights) / len(technical_patterns)
+                            if ratio > 1.5:
+                                verdict = "Human Intelligence Dominates"
+                                color = "success"
+                            elif ratio > 0.7:
+                                verdict = "Balanced Analysis"
+                                color = "info"
+                            else:
+                                verdict = "AI Patterns Dominate"
+                                color = "warning"
+                        else:
+                            verdict = "Insufficient Data"
+                            color = "info"
+                        
+                        st.metric(
+                            "🎯 Analysis Balance",
+                            verdict,
+                            f"{len(human_insights)}:{len(technical_patterns)} ratio"
+                        )
+                    
+                    # Human Edge Analysis
+                    st.markdown("---")
+                    st.markdown("## 🎯 **The Human Edge: What AI Might Miss**")
+                    
+                    human_edge_insights = []
+                    
+                    # Analyze what AI might have missed
+                    if len(human_insights) > len(technical_patterns):
+                        human_edge_insights.append("🧠 **Contextual Understanding:** Humans excel at connecting data to real-world context")
+                    
+                    if any('emotion' in insight.lower() or 'feel' in insight.lower() for insight in human_insights):
+                        human_edge_insights.append("💭 **Emotional Intelligence:** Humans understand emotional drivers behind data patterns")
+                    
+                    if any('culture' in insight.lower() or 'social' in insight.lower() for insight in human_insights):
+                        human_edge_insights.append("🌍 **Cultural Awareness:** Humans recognize cultural and social factors affecting behavior")
+                    
+                    if any('behavior' in insight.lower() or 'psychology' in insight.lower() for insight in human_insights):
+                        human_edge_insights.append("🧠 **Behavioral Psychology:** Humans understand motivation and decision-making processes")
+                    
+                    if any('trend' in insight.lower() or 'seasonal' in insight.lower() for insight in human_insights):
+                        human_edge_insights.append("📅 **Temporal Context:** Humans recognize seasonal and temporal patterns in behavior")
+                    
+                    if not human_edge_insights:
+                        human_edge_insights.append("🤖 **AI Dominance:** In this case, AI patterns may be more comprehensive than human insights")
+                    
+                    for insight in human_edge_insights:
+                        st.markdown(f"""
+                        <div class="human-context-highlight">
+                            {insight}
+                        </div>
+                        """, unsafe_allow_html=True)
                     
                     st.markdown('<div class="human-vs-ai">', unsafe_allow_html=True)
                     st.markdown(comparison)
@@ -578,7 +1132,7 @@ def main():
                     st.session_state.analysis_complete = True
 
     # Demo section for hackathon judges
-    if not uploaded_file:
+    if df is None:
         st.markdown("---")
         st.markdown("## 🎬 **Demo Preview : )**")
         
