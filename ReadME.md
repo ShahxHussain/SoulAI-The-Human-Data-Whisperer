@@ -4,8 +4,8 @@
 *Where Human Intelligence Meets Artificial Intelligence*
 
 [![Demo Video](https://img.shields.io/badge/🎥_Demo-Watch_Video-red)](YOUR_DEMO_VIDEO_LINK)
-[![Live Demo](https://img.shields.io/badge/🚀_Live-Try_Demo-blue)](YOUR_LIVE_DEMO_LINK)
-[![GitHub](https://img.shields.io/badge/📱_Code-GitHub-black)](YOUR_GITHUB_LINK)
+[![Live Demo](https://img.shields.io/badge/🚀_Live-Try_Demo-blue)](https://thesoulai.streamlit.app/)
+[![GitHub](https://img.shields.io/badge/📱_Code-GitHub-black)](https://github.com/ShahxHussain/SoulAI-The-Human-Data-Whisperer)
 
 ## 🎯 **The Challenge: AI vs H.I.**
 
