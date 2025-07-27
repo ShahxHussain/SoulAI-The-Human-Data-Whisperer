@@ -185,20 +185,111 @@ E2B API Key
 ### **Quick Start:**
 ```bash
 # Clone the repository
-git clone https://github.com/YourUsername/SoulAI-Human-Whisperer
+git clone https://github.com/shahxhussain/SoulAI-The-Human-Data-Whisperer
 cd SoulAI-Human-Whisperer
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Run the application
-streamlit run SoulAI_human_whisperer.py
+streamlit run app.py
 ```
 
 ### **API Keys Setup:**
 1. **Together AI:** [Get API Key](https://api.together.ai/signin)
 2. **E2B Sandbox:** [Get API Key](https://e2b.dev/docs/getting-started/api-key)
 3. Enter keys in the sidebar when running the app
+
+---
+
+## 📁 **Project Structure**
+
+```
+SoulAI/
+├── 📄 app.py                          # Main Streamlit application (57KB, 1170 lines)
+├── 📄 requirements.txt                # Python dependencies and packages
+├── 📄 README.md                       # Project documentation and guide
+├── 📄 .gitignore                      # Git ignore patterns
+│
+├── 📊 sample_datasets/                # Pre-loaded datasets for analysis
+│   ├── 📄 Adidas US Sales Datasets.xlsx    # E-commerce sales data (682KB)
+│   ├── 📄 Student Mental health.csv        # Mental health survey data (7.2KB)
+│   └── 📄 googleplaystore.csv              # Google Play Store apps data (1.3MB)
+│
+├── 🎨 Aiding_Resources/               # Visual assets and branding
+│   ├── 🖼️ banner.png                      # Application banner image (35KB)
+│   ├── 🖼️ CS-Girlies-logo.png             # Hackathon logo (165KB)
+│   └── 🖼️ v2.0 Deployed.png               # Deployment showcase (448KB)
+│
+├── 📈 Diagrams/                       # System architecture and flow diagrams
+│   ├── 🖼️ 1.DataFlow Diagram.png          # Overall data flow architecture
+│   ├── 🖼️ 2.Data Processing Flow.png      # Data processing pipeline
+│   ├── 🖼️ 3.Human Intelligence Layer.png  # Human intelligence components
+│   ├── 🖼️ 4.AI Analysis Layer.png         # AI analysis components
+│   ├── 🖼️ 5.Analysis Comparison Engine.png # Comparison engine architecture
+│   └── 🖼️ 6.Matrics & Analytics flow.png  # Metrics and analytics flow
+│
+├── 🖼️ System_Screenshots/             # Application screenshots 
+│   ├── 🖼️ s1.png                      # Main application interface (307KB)
+│   ├── 🖼️ s2.png                      # Dataset selection view (209KB)
+│   ├── 🖼️ s3.png                      # Human intuition capture (330KB)
+│   ├── 🖼️ s4.png                      # AI analysis results (213KB)
+│   ├── 🖼️ s5.png                      # Comparison dashboard (205KB)
+│   ├── 🖼️ s6.png                      # Human vs AI insights (229KB)
+│   ├── 🖼️ s7.png                      # Emotional context analysis (241KB)
+│   ├── 🖼️ s8.png                      # Metrics and analytics (154KB)
+│   └── 🖼️ s9.png                      # Final insights summary (191KB)
+
+```
+
+### **Key Files Description:**
+
+- **`app.py`**: Main application file containing the Streamlit interface, AI integration, and human intelligence layer
+- **`requirements.txt`**: Lists all Python dependencies including Together AI, E2B, Streamlit, Pandas, Plotly, etc.
+- **`sample_datasets/`**: Contains three diverse datasets for demonstrating the tool's capabilities
+- **`Diagrams/`**: Visual documentation of the system architecture and data flow
+- **`Aiding_Resources/`**: Branding assets and visual elements for the application
+- **`soulai/`**: Python virtual environment with all necessary dependencies and tools
+
+---
+
+## 🖼️ **Application Screenshots**
+
+### **1. Main Application Interface**
+![Main Interface](System_Screenshots/s1.png)
+*The welcoming interface of SoulAI with dataset selection and human intuition capture options*
+
+### **2. Dataset Selection & Upload**
+![Dataset Selection](System_Screenshots/s2.png)
+*Users can choose from pre-loaded sample datasets or upload their own CSV/Excel files*
+
+### **3. Human Intuition Capture**
+![Human Intuition](System_Screenshots/s3.png)
+*The interface where users share their gut feelings, contextual insights, and assumptions about the data*
+
+### **4. AI Analysis Results**
+![AI Analysis](System_Screenshots/s4.png)
+*AI-powered technical analysis with statistical findings and data visualizations*
+
+### **5. Comparison Dashboard**
+![Comparison Dashboard](System_Screenshots/s5.png)
+*Side-by-side comparison showing AI patterns versus human insights*
+
+### **6. Human vs AI Insights**
+![Human vs AI](System_Screenshots/s6.png)
+*Detailed breakdown of where human intelligence provides unique value over AI analysis*
+
+### **7. Emotional Context Analysis**
+![Emotional Analysis](System_Screenshots/s7.png)
+*Sentiment analysis and emotional context detection in data interpretations*
+
+### **8. Metrics & Analytics**
+![Metrics Dashboard](System_Screenshots/s8.png)
+*Quantitative metrics showing the balance between AI accuracy and human insight*
+
+### **9. Final Insights Summary**
+![Final Summary](System_Screenshots/s9.png)
+*Comprehensive summary highlighting the human edge and actionable insights*
 
 ---
 
@@ -222,25 +313,6 @@ streamlit run SoulAI_human_whisperer.py
 
 ---
 
-## 🎨 **Screenshots**
-
-### **Human Intuition Capture:**
-![Human Input Interface](screenshots/human_input.png)
-*Users share their gut feelings before AI analysis*
-
-### **AI vs Human Comparison:**
-![Comparison View](screenshots/ai_vs_human.png)
-*Side-by-side analysis showing where human intelligence wins*
-
-### **Emotional Context Layer:**
-![Emotional Analysis](screenshots/emotional_context.png)
-*Sentiment analysis of data interpretations*
-
-### **Human Edge Insights:**
-![Human Edge](screenshots/human_edge.png)
-*Alerts highlighting what AI missed*
-
----
 
 ## 🧠 **The Science Behind Human Intelligence**
 
@@ -286,10 +358,6 @@ streamlit run SoulAI_human_whisperer.py
 ## 💖 **Acknowledgments**
 
 - **CS Girlies Community** for organizing this amazing hackathon
-- **Together AI** for providing powerful LLM capabilities
-- **E2B** for secure code execution environment
-- **All the humans** who shared their intuition to prove AI's limitations
-
 ---
 
 ## 📜 **License**
