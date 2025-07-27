@@ -348,10 +348,7 @@ SoulAI/
 
 ## 🤝 **Team SoulAI**
 
-**Syed Shah Hussain Badshah** - Undergrad SWE @COMSATS_CUI_ATD 
-*"Passionate about proving that humans are irreplaceable in the age of AI"*
-
-**Contact:** [Your Email] | [Your LinkedIn] | [Your Twitter]
+**Syed Shah Hussain Badshah** - Undergrad SWE @COMSATS_CUI_ATD | The Tech Explorer
 
 ---
 
