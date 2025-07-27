@@ -1,7 +1,2 @@
-soul
-.env
-streamlit
-pillow 
-pandas
-together
-e2b
+soulai
+.vscode
